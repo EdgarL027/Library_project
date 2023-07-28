@@ -11,16 +11,16 @@ function getBooksBorrowedCount(books) {
 
   // Iterate through each book object
   for (const book of books) {
-      // Iterate through each borrows object
-      for (const borrow of book.borrows) {
-        // Check if the book is not returned
-        if (!borrow.returned) {
-          checkedOutCount++;
-        }
+    // Iterate through each borrows object
+    for (const borrow of book.borrows) {
+      // Check if the book is not returned
+      if (!borrow.returned) {
+        checkedOutCount++;
       }
     }
-    return checkedOutCount;
   }
+  return checkedOutCount;
+}
 
 function getMostCommonGenres(books) {
   //Initialize a new object to hold our genre count
@@ -50,7 +50,6 @@ function getMostCommonGenres(books) {
 }
 //side note: I can no longer see the word genre normally... it just looks wrong.
 
-
 function getMostPopularBooks(books) {
   //Initialize an object to hold our counts of each book
   let bookCounts = {};
@@ -77,6 +76,13 @@ function getMostPopularBooks(books) {
 
   // Return the top five popular books or fewer
   return popularBooks.slice(0, 5);
+}
+
+//Helper function to help with getMostPopularAuthors function below
+function getBooksBorrowCount(books, authorId) {
+  return books.reduce((count, book) => {
+    return count + (book.authorId === authorId ? book.borrowed : 0);
+  }, 0);
 }
 
 function getMostPopularAuthors(books, authors) {

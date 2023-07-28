@@ -8,33 +8,19 @@ function findBookById(books, id) {
   return found;
 }
 
+/*
+Helper function to help with partitionBookByBorrowedStatus function
+This checks the return status based on the 'returned' property
+of the first transaction in the 'borrows' array
+*/
+
+function isBookReturned(book) {
+  return book.borrows[0].returned;
+}
+
 function partitionBooksByBorrowedStatus(books) {
-  //Initialize two arrays to split our book array.
-  const checkedOutBooks = [];
-  const returnedBooks = [];
-
-  /* 
-  We loop through the book array to get to the borrows array
-  And set the first index in the borrows array to the variable lastBorrow
-  */
-
-  for (const book of books) {
-    const { borrows } = book;
-    const [lastBorrow] = borrows;
-
-    /*
-    With access to the borrows array we check the returned status of the book
-    If the returned value is true we push it into returnedBooks
-    otherwise, we push it into checkedOutBooks
-    */
-    if (lastBorrow.returned) {
-      returnedBooks.push(book);
-    } else {
-      checkedOutBooks.push(book);
-    }
-  }
-
-  //finally, we return the two book arrays combined into a single array
+  const checkedOutBooks = books.filter((book) => !isBookReturned(book));
+  const returnedBooks = books.filter((book) => isBookReturned(book));
   return [checkedOutBooks, returnedBooks];
 }
 
@@ -55,9 +41,8 @@ function getBorrowersForBook(book, accounts) {
     };
     //then we push this new object into our empty array
     borrowers.push(borrower);
-/*
+    /*
 Finally, we check if the array length is equal to 10.
-If it is, we break out of the loop with our break statement.
 */
     if (borrowers.length === 10) {
       break;

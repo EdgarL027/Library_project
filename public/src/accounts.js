@@ -1,12 +1,17 @@
 function findAccountById(accounts, id) {
-  let found = accounts.find((number) => number.id === id);
-  return found;
+  return accounts.reduce((foundAccount, account) => {
+    if (account.id === id) {
+      foundAccount = account;
+    }
+    return foundAccount;
+  }, null);
 }
 
 function sortAccountsByLastName(accounts) {
   accounts.sort((nameA, nameB) =>
-    nameA.name.last.toLowerCase() > nameB.name.last.toLowerCase() ? 1 : -1);
-    return accounts;
+    nameA.name.last.toLowerCase() > nameB.name.last.toLowerCase() ? 1 : -1
+  );
+  return accounts;
 }
 
 function getTotalNumberOfBorrows(account, books) {
@@ -14,16 +19,16 @@ function getTotalNumberOfBorrows(account, books) {
 
   // Iterate through each book object
   for (const book of books) {
-      // Iterate through each borrows object
-      for (const borrow of book.borrows) {
-        // Check if the book is not returned
-        if (borrow.id === account.id) {
-          count++;
-        }
+    // Iterate through each borrows object
+    for (const borrow of book.borrows) {
+      // Check if the book is not returned
+      if (borrow.id === account.id) {
+        count++;
       }
     }
-    return count;
   }
+  return count;
+}
 
 function getBooksPossessedByAccount(account, books, authors) {
   //Initialize empty array to hold our modified book object
